@@ -20,6 +20,7 @@ namespace EQ5EDML.Elementos
             Tipo = t;
             Simbolo = s;
             Linea = l;
+            //lineas = l.ToString();
         }
 
         public Token(string v, int i, int l, int t, string s)
@@ -46,6 +47,16 @@ namespace EQ5EDML.Elementos
                 cadena += s + " ";
             }
             return cadena;
+        }
+
+        public void setLine(int i)
+        {
+            if(lineas == "")
+            {
+                lineas += i.ToString();
+            }
+            else
+            lineas += "," + i.ToString();
         }
 
         public int Linea { get => linea; set => linea = value; }

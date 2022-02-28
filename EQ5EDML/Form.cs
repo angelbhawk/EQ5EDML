@@ -46,7 +46,15 @@ namespace EQ5EDML
             {
                 MostrarResultados();
             }
-            if(cbxTablas.SelectedIndex == 3)
+            if (cbxTablas.SelectedIndex == 1)
+            {
+                MostrarTablaIdentificadores();
+            }
+            if (cbxTablas.SelectedIndex == 2)
+            {
+                MostrarTablaConstantes();
+            }
+            if (cbxTablas.SelectedIndex == 3)
             {
                 MostrarTablaSintactica();
             }
@@ -103,6 +111,58 @@ namespace EQ5EDML
             foreach (Error e in tokens.Errores)
             {
                 this.dgv.Rows.Add(e.Tipo + ":" + e.Indice + " Linea " + e.Linea + ": "+e.Descripcion);
+            }
+        }
+
+        private void MostrarTablaIdentificadores()
+        {
+            dgv.Rows.Clear();
+            dgv.Columns.Clear();
+
+            dgv.Columns.Add("clmNum", "Nombre");
+            dgv.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dgv.Columns.Add("clmCad", "Código");
+            dgv.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dgv.Columns.Add("clmTip", "Linea");
+            dgv.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+            Color c = Color.FromArgb(32, 32, 32);
+            dgv.DefaultCellStyle.ForeColor = Color.White;
+            dgv.DefaultCellStyle.BackColor = c;
+            dgv.DefaultCellStyle.SelectionBackColor = c;
+
+            int i = 0;
+            foreach (Token t in tokens.Tidentif)
+            {
+                i++;
+                this.dgv.Rows.Add(t.Valor, t.Indice, t.Lineas);
+            }
+        }
+
+        private void MostrarTablaConstantes()
+        {
+            dgv.Rows.Clear();
+            dgv.Columns.Clear();
+
+            dgv.Columns.Add("clmNum", "Numero");
+            dgv.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dgv.Columns.Add("clmCad", "Valor");
+            dgv.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dgv.Columns.Add("clmTip", "Tipo");
+            dgv.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dgv.Columns.Add("clmTip2", "Indice");
+            dgv.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+            Color c = Color.FromArgb(32, 32, 32);
+            dgv.DefaultCellStyle.ForeColor = Color.White;
+            dgv.DefaultCellStyle.BackColor = c;
+            dgv.DefaultCellStyle.SelectionBackColor = c;
+
+            int i = 0;
+            foreach (Token t in tokens.Tconstan)
+            {
+                i++;
+                this.dgv.Rows.Add(i, t.Valor, t.Tipo, t.Indice);
             }
         }
 

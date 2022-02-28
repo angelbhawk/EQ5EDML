@@ -30,9 +30,9 @@ namespace EQ5EDML.Componentes
 
             tpalares = new List<Token>(); // del 10 al 29
             Tsintact = new List<Token>(); // del 300 al 399
-            tidentif = new List<Token>(); // del 400 al 599
+            Tidentif = new List<Token>(); // del 400 al 599
             tdelimit = new List<Token>(); // del -
-            tconstan = new List<Token>(); // del 600 al 799
+            Tconstan = new List<Token>(); // del 600 al 799
             toperado = new List<Token>(); // del -
             trelacio = new List<Token>(); // del -
 
@@ -51,6 +51,8 @@ namespace EQ5EDML.Componentes
         internal List<Error> Errores { get => errores; set => errores = value; }
         internal List<Token> Tsintact { get => tsintact; set => tsintact = value; }
         internal List<Prueba> PruebaDeEscritorio { get => pruebaDeEscritorio; set => pruebaDeEscritorio = value; }
+        internal List<Token> Tidentif { get => tidentif; set => tidentif = value; }
+        internal List<Token> Tconstan { get => tconstan; set => tconstan = value; }
 
         private void LoadTokens(MatchCollection matches)
         {
@@ -214,22 +216,22 @@ namespace EQ5EDML.Componentes
             switch (t)
             {
                 case 1:
-                    res = tokenExists(v, tidentif);
+                    res = tokenExists(v, Tidentif);
                     return res.Item2; 
                 case 4:
-                    res = tokenExists(v, tidentif);
-                    return addTokenType(v, tidentif, res.Item1, res.Item2, t, l);
+                    res = tokenExists(v, Tidentif);
+                    return addTokenType(v, Tidentif, res.Item1, res.Item2, t, l);
                 case 5:
-                    res = tokenExists(v, tidentif);
+                    res = tokenExists(v, Tidentif);
                     return res.Item2;
                 case 6:
-                    res = tokenExists(v, tconstan);
-                    return addTokenType(v, tconstan, res.Item1, res.Item2, t, l);
+                    res = tokenExists(v, Tconstan);
+                    return addTokenType(v, Tconstan, res.Item1, res.Item2, t, l);
                 case 7:
-                    res = tokenExists(v, tidentif);
+                    res = tokenExists(v, Tidentif);
                     return res.Item2;
                 case 8:
-                    res = tokenExists(v, tidentif);
+                    res = tokenExists(v, Tidentif);
                     return res.Item2;
                 default:
                     return 0;
@@ -255,6 +257,7 @@ namespace EQ5EDML.Componentes
             if (e)
             {
                 int indice = i;
+                lista[getListIndex(v, lista)].setLine(l);
                 return indice; // retorna el valor existente
             }
             else
@@ -262,9 +265,24 @@ namespace EQ5EDML.Componentes
                 int indice = 0;
                 indice = lista.Count;
                 lista.Add(new Token(v, indice, t, "", l));
+                lista[getListIndex(v, lista)].setLine(l);
                 return indice;
 
             }
+        }
+
+        private int getListIndex(string v, List<Token> lista)
+        {
+            int i = 0;
+            foreach(Token t in lista)
+            {
+                if(v == t.Valor)
+                {
+                    return i;
+                }
+                i++;
+            }
+            return 0;
         }
 
         private (string simbolo, int indice) getSimbolo(string valor, List<Token> lista) 
